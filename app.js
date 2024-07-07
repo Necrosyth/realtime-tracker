@@ -6,7 +6,13 @@ const socketio = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-
+io.on('connection',function (socket) {
+    socket.on('send-Location',function (data) {
+        io.emit('recieve-Location', {id:socket.id,...data}
+    )
+    })
+    console.log('a user connected');
+  });
 // Set view engine to EJS
 app.set('view engine', 'ejs');
 
