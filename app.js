@@ -1,18 +1,22 @@
-const express=require('express');
-const http=require("http");
-const socketio=require("socket.io")
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const socketio = require('socket.io');
 
-const app=express();
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 
-const server=http.createServer(app)
+// Set view engine to EJS
+app.set('view engine', 'ejs');
 
-const io=socketio(server)
+// Set the static files directory
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', function(req, res) {
+    res.render('index');
+});
 
-
-app.get("/",function(req,res){
-    res.send("Hello World");
-
-})
-
-server.listen(3000)
+server.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
